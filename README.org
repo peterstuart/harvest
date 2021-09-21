@@ -1,0 +1,55 @@
+A command line client for [Harvest](https://harvestapp.com)
+
+** Setup
+
+- Install [[https://rustup.rs/][rustup]]
+
+** Development
+
+*** Formatting
+
+#+BEGIN_SRC sh
+cargo fmt
+#+END_SRC
+
+*** Linting
+
+#+BEGIN_SRC sh
+cargo clippy
+#+END_SRC
+
+*** Tests
+
+#+BEGIN_SRC sh
+cargo test
+#+END_SRC
+
+** Running
+
+- Create a [[https://id.getharvest.com/developers][personal access token]] in your Harvest account
+  
+- Add a ~config.yml~ in either ~~/Library/Application Support/harvest/~ (macOS) or ~~/.config/harvest/~ (Linux) with the following format:
+  #+BEGIN_SRC yaml
+    auth:
+      access_token: xxx
+      account_id: xxx
+  #+END_SRC
+- Run the app:
+  #+BEGIN_SRC sh
+    cargo run -- timer
+  #+END_SRC
+  If you don't provide any arguments, you will get a help message listing possible commands.
+
+*** Toggling the Current Timer
+
+#+BEGIN_SRC sh
+cargo run -- timer toggle
+#+END_SRC
+
+*** Print the Current Timer
+
+#+BEGIN_SRC sh
+cargo run -- timer current --continuous
+#+END_SRC
+
+~--continuous~ optionally makes the app run forever, printing out the current timer information every few seconds, which is useful for redirecting into a status bar.
