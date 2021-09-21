@@ -2,7 +2,7 @@ A command line client for [Harvest](https://harvestapp.com)
 
 ** Setup
 
-- Install [[https://rustup.rs/][rustup]]
+Install [[https://rustup.rs/][rustup]].
 
 ** Development
 
@@ -26,19 +26,23 @@ cargo test
 
 ** Running
 
-- Create a [[https://id.getharvest.com/developers][personal access token]] in your Harvest account
+Create a [[https://id.getharvest.com/developers][personal access token]] in your Harvest account.
+
+Add a =config.yml= in either =~/Library/Application Support/harvest/= (macOS) or =~/.config/harvest/= (Linux) with the following format:
   
-- Add a ~config.yml~ in either ~~/Library/Application Support/harvest/~ (macOS) or ~~/.config/harvest/~ (Linux) with the following format:
-  #+BEGIN_SRC yaml
-    auth:
-      access_token: xxx
-      account_id: xxx
-  #+END_SRC
-- Run the app:
-  #+BEGIN_SRC sh
-    cargo run -- timer
-  #+END_SRC
-  If you don't provide any arguments, you will get a help message listing possible commands.
+#+BEGIN_SRC yaml
+  auth:
+    access_token: xxx
+    account_id: xxx
+#+END_SRC
+  
+Run the app:
+  
+#+BEGIN_SRC sh
+  cargo run -- timer
+#+END_SRC
+  
+If you don't provide any arguments, you will get a help message listing possible commands.
 
 *** Toggling the Current Timer
 
@@ -52,4 +56,4 @@ cargo run -- timer toggle
 cargo run -- timer current --continuous
 #+END_SRC
 
-~--continuous~ optionally makes the app run forever, printing out the current timer information every few seconds, which is useful for redirecting into a status bar.
+=--continuous= optionally makes the app run forever, printing out the current timer information every few seconds, which is useful for redirecting into a status bar.
