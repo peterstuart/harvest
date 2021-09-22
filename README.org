@@ -1,4 +1,4 @@
-A command line client for [Harvest](https://harvestapp.com)
+A command line client for [[https://harvestapp.com][Harvest]]
 
 ** Setup
 
