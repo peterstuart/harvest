@@ -8,7 +8,6 @@ use serde::de::DeserializeOwned;
 static BASE_URL: &str = "https://api.harvestapp.com/v2";
 static USER_AGENT: &str = "Peter Stuart (peter@peterstuart.org)";
 
-#[derive(Clone, Debug)]
 pub struct Client {
     reqwest_client: reqwest::Client,
 }
