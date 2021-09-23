@@ -25,16 +25,6 @@ impl Client {
 
     async fn get<Response: DeserializeOwned>(&self, endpoint: &str) -> Result<Response> {
         let url = Self::url(endpoint);
-        // println!(
-        //     "{} {}",
-        //     url,
-        //     self.reqwest_client
-        //         .get(url.clone())
-        //         .send()
-        //         .await?
-        //         .text()
-        //         .await?
-        // );
         Ok(self.reqwest_client.get(url).send().await?.json().await?)
     }
 
