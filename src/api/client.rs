@@ -1,4 +1,7 @@
-use super::{types::TimeEntries, Auth, Id, TimeEntry};
+use super::{
+    types::{ProjectAssignment, ProjectAssignments, TimeEntries, User},
+    Auth, Id, TimeEntry,
+};
 use crate::Result;
 use serde::de::DeserializeOwned;
 
@@ -35,6 +38,10 @@ impl Client {
 }
 
 impl Client {
+    pub async fn get_user(&self) -> Result<User> {
+        self.get("/users/me.json").await
+    }
+
     pub async fn get_time_entries(&self) -> Result<Vec<TimeEntry>> {
         let time_entries: TimeEntries = self.get("/time_entries").await?;
         Ok(time_entries.time_entries)
@@ -48,5 +55,11 @@ impl Client {
     pub async fn stop_time_entry(&self, id: Id<TimeEntry>) -> Result<TimeEntry> {
         let endpoint = format!("/time_entries/{}/stop", id);
         self.patch(&endpoint).await
+    }
+
+    pub async fn get_project_assignments(&self) -> Result<Vec<ProjectAssignment>> {
+        let project_assignments: ProjectAssignments =
+            self.get("/users/me/project_assignments").await?;
+        Ok(project_assignments.project_assignments)
     }
 }

@@ -1,7 +1,7 @@
 mod auth;
 mod client;
-mod types;
+pub mod types;
 
 pub use auth::Auth;
 pub use client::Client;
-pub use types::{Id, TimeEntry};
+pub use types::{Id, Minimal, Project, ProjectAssignment, Task, TaskAssignment, TimeEntry, User};
