@@ -1,10 +1,13 @@
 use clap::{App, AppSettings, Arg, SubCommand};
-use harvest::{timer, Client, Config, Result};
+use harvest::{tasks, timer, Client, Config, Result};
 
 const TIMER_SUBCOMMAND: &str = "timer";
 const TIMER_CURRENT_SUBCOMMAND: &str = "current";
 const TIMER_CURRENT_CONTINUOUS_ARG: &str = "continuous";
 const TIMER_TOGGLE_SUBCOMMAND: &str = "toggle";
+
+const TASK_SUBCOMMAND: &str = "task";
+const TASK_LIST_SUBCOMMAND: &str = "list";
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -30,6 +33,13 @@ async fn main() -> Result<()> {
             Some(TIMER_TOGGLE_SUBCOMMAND) => timer::show_toggle(&client).await?,
             _ => unreachable!(),
         };
+    } else if let Some(matches) = matches.subcommand_matches(TASK_SUBCOMMAND) {
+        match matches.subcommand_name() {
+            Some(TASK_LIST_SUBCOMMAND) => {
+                tasks::list(&client).await?;
+            }
+            _ => unreachable!(),
+        }
     }
 
     Ok(())
@@ -42,7 +52,6 @@ fn app() -> App<'static, 'static> {
         .setting(AppSettings::SubcommandRequiredElseHelp)
         .subcommand(
             SubCommand::with_name(TIMER_SUBCOMMAND)
-                .about("Interact with timers")
                 .setting(AppSettings::SubcommandRequiredElseHelp)
                 .subcommand(
                     SubCommand::with_name(TIMER_CURRENT_SUBCOMMAND)
@@ -57,6 +66,13 @@ fn app() -> App<'static, 'static> {
                 .subcommand(
                     SubCommand::with_name(TIMER_TOGGLE_SUBCOMMAND)
                         .about("Toggle the current timer on or off"),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name(TASK_SUBCOMMAND)
+                .setting(AppSettings::SubcommandRequiredElseHelp)
+                .subcommand(
+                    SubCommand::with_name(TASK_LIST_SUBCOMMAND).about("List all assigned tasks"),
                 ),
         )
 }
