@@ -1,4 +1,4 @@
-use crate::{Client, Result, TimeEntry};
+use crate::{Client, CreateTimeEntry, Id, ListTimeEntries, Project, Result, Task, TimeEntry};
 use anyhow::anyhow;
 use std::time::Duration;
 use tokio::time;
@@ -29,8 +29,17 @@ pub async fn show_toggle(client: &Client) -> Result<()> {
     Ok(())
 }
 
+pub async fn show_start(client: &Client, project_id: Id<Project>, task_id: Id<Task>) -> Result<()> {
+    let time_entry = start(client, project_id, task_id).await?;
+    println!("{}", time_entry);
+
+    Ok(())
+}
+
 async fn get_current(client: &Client) -> Result<Option<TimeEntry>> {
-    let time_entries = client.get_time_entries().await?;
+    let time_entries = client
+        .get_time_entries(&ListTimeEntries::for_today())
+        .await?;
 
     Ok(running_time_entry(&time_entries)
         .or_else(|| most_recent_time_entry_from_today(&time_entries)))
@@ -68,4 +77,26 @@ fn most_recent_time_entry_from_today(time_entries: &[TimeEntry]) -> Option<TimeE
             }
         })
         .cloned()
+}
+
+async fn start(client: &Client, project_id: Id<Project>, task_id: Id<Task>) -> Result<TimeEntry> {
+    let time_entry = client
+        .get_time_entries(&ListTimeEntries::for_today())
+        .await?
+        .into_iter()
+        .find(|time_entry| time_entry.project.id == project_id && time_entry.task.id == task_id);
+
+    Ok(match time_entry {
+        Some(time_entry) => {
+            if time_entry.is_running {
+                time_entry
+            } else {
+                client.restart_time_entry(time_entry.id).await?
+            }
+        }
+        None => {
+            let params = CreateTimeEntry::for_today(project_id, task_id);
+            client.create_time_entry(&params).await?
+        }
+    })
 }
