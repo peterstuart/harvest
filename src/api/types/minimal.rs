@@ -9,6 +9,6 @@ pub struct Minimal<T> {
 
 impl<T> std::fmt::Display for Minimal<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        self.name.fmt(f)
+        format!("{} ({})", self.name, self.id).fmt(f)
     }
 }

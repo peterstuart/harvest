@@ -1,6 +1,8 @@
 mod client;
+mod create_time_entry;
 mod hours;
 mod id;
+mod list_time_entries;
 mod minimal;
 mod project;
 mod project_assignment;
@@ -13,8 +15,10 @@ mod time_entry;
 mod user;
 
 pub use client::Client;
+pub use create_time_entry::CreateTimeEntry;
 pub use hours::Hours;
 pub use id::Id;
+pub use list_time_entries::ListTimeEntries;
 pub use minimal::Minimal;
 pub use project::Project;
 pub use project_assignment::ProjectAssignment;
