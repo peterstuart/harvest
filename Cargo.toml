@@ -6,7 +6,7 @@ edition = "2018"
 [dependencies]
 anyhow = "1.0.47"
 chrono = { version = "0.4.19", features = ["serde"] }
-clap = "2.33.3"
+clap = "2.34.0"
 dirs = "4.0.0"
 reqwest = { version = "0.11.6", features = ["json"] }
 rust_decimal = "1.17.0"
